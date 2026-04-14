@@ -1,0 +1,81 @@
+//q1
+//Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Switch and Toggle Button Demo"
+        android:textSize="22sp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Switch
+        android:id="@+id/switch1"
+        android:text="WiFi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ToggleButton
+        android:id="@+id/toggleButton1"
+        android:textOn="Bluetooth ON"
+        android:textOff="Bluetooth OFF"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+//MainActivity.java
+package com.example.switchtoggle;
+
+import android.os.Bundle;
+import android.widget.Switch;
+import android.widget.ToggleButton;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    Switch wifiSwitch;
+    ToggleButton bluetoothToggle;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        wifiSwitch = findViewById(R.id.switch1);
+        bluetoothToggle = findViewById(R.id.toggleButton1);
+
+        wifiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked){
+                    Toast.makeText(MainActivity.this,"WiFi is ON",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this,"WiFi is OFF",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        bluetoothToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked){
+                    Toast.makeText(MainActivity.this,"Bluetooth ON",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this,"Bluetooth OFF",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+

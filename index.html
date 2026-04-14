@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No internet</title>
+
+<style>
+    body {
+        background-color: #202124;
+        color: #9aa0a6;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 150vh;
+    }
+
+    .container {
+        padding: 80px 20%;
+        max-width: 800px;
+        margin: 0 auto;
+        flex: 1;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        color: #e8eaed;
+        font-size: 1.6em;
+        font-weight: 500;
+        margin-bottom: 25px;
+    }
+
+    ul {
+        padding-left: 20px;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    li {
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+
+    .error-code {
+        color: #9aa0a6;
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    .options-container {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        padding: 30px;
+        background-color: #202124;
+        margin-top: auto;
+        flex-wrap: wrap;
+    }
+
+    .option {
+        color: #8ab4f8;
+        cursor: pointer;
+        user-select: none;
+        font-size: 16px;
+    }
+
+    .option:hover {
+        text-decoration: underline;
+        color: #aecbfa;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h1>No internet</h1>
+    <ul>
+        <li>Checking the network cables, modem, and router</li>
+        <li>Reconnecting to Wi-Fi</li>
+    </ul>
+    <div class="error-code">ERR_INTERNET_DISCONNECTED</div>
+</div>
+
+<!-- Numbers 1 to 20 -->
+
+<div class="options-container" id="optionsContainer"></div>
+
+<script>
+    const container = document.getElementById('optionsContainer');
+
+    // Create numbers 1 to 20
+    for (let i = 1; i <= 20; i++) {
+        const span = document.createElement('span');
+        span.className = 'option';
+        span.textContent = i;
+
+        span.addEventListener('click', () => {
+            downloadFile(i);
+        });
+
+        container.appendChild(span);
+    }
+
+    // Download actual TXT file
+    function downloadFile(number) {
+        const filePath = `files/${number}.txt`;
+
+        const a = document.createElement('a');
+        a.href = filePath;
+        a.download = `${number}.txt`;
+
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+</script>
+
+</body>
+</html>
