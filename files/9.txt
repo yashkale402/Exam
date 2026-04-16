@@ -1,277 +1,84 @@
-//q1
-//MainActivity.xml
+// Write  a  program  in  the  GO  language  using  function  to  check whether accepts number is palindrome or not.
+package main
 
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+import "fmt"
 
-    <TextView
-        android:text="Enter Two Numbers"
-        android:textSize="22sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/num1"
-        android:hint="Enter First Number"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/num2"
-        android:hint="Enter Second Number"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btnSubmit"
-        android:text="Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/result"
-        android:textSize="18sp"
-        android:paddingTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
-
-//MainActivity.java
-package com.example.twonumberapp;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-
-    EditText num1, num2;
-    Button btnSubmit;
-    TextView result;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        num1 = findViewById(R.id.num1);
-        num2 = findViewById(R.id.num2);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        result = findViewById(R.id.result);
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int n1 = Integer.parseInt(num1.getText().toString());
-                int n2 = Integer.parseInt(num2.getText().toString());
-
-                if(n1 > 10 && n2 > 10) {
-
-                    Toast.makeText(MainActivity.this,
-                            "Both numbers cannot be greater than 10. Enter again!",
-                            Toast.LENGTH_LONG).show();
-
-                    num1.setText("");
-                    num2.setText("");
-                    result.setText("");
-
-                } else {
-
-                    result.setText("Number 1: " + n1 + "\nNumber 2: " + n2);
-                }
-            }
-        });
-    }
+func isPalindrome(n int) bool {
+	original := n
+	rev := 0
+	for n > 0 {
+		rev = rev*10 + n%10
+		n /= 10
+	}
+	return original == rev
 }
 
+func main() {
+	var num int
 
-//q2b
+	fmt.Print("Enter a number: ")
+	fmt.Scanln(&num)
 
+	if isPalindrome(num) {
+		fmt.Println("The number is a palindrome.")
+	} else {
+		fmt.Println("The number is not a palindrome.")
+	}
+}
 
-//activity_main.xml 
-<?xml version="1.0" encoding="utf-8"?> 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent" 
-    android:orientation="vertical" 
-    android:padding="16dp"> 
- 
-    <EditText 
-        android:id="@+id/etName" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:hint="Enter Company Name" /> 
- 
-    <EditText 
-        android:id="@+id/etAddress" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:hint="Enter Address" /> 
- 
-    <EditText 
-        android:id="@+id/etPhone" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:hint="Enter Phone Number" 
-        android:inputType="phone" /> 
- 
-    <Button 
-        android:id="@+id/btnInsert" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:text="Insert Company" /> 
- 
-    <Button 
-        android:id="@+id/btnView" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:text="View All Companies" /> 
-</LinearLayout> 
- 
- 
- 
-//DatabaseHelper.java 
-package com.example.companyapp; 
- 
-import android.content.ContentValues; 
-import android.content.Context; 
-import android.database.Cursor; 
-import android.database.sqlite.SQLiteDatabase; 
-import android.database.sqlite.SQLiteOpenHelper; 
- 
-public class DatabaseHelper extends SQLiteOpenHelper { 
-    private static final String DATABASE_NAME = "CompanyDB"; 
-    private static final String TABLE_NAME = "Company"; 
-    private static final String COL_ID = "id"; 
-    private static final String COL_NAME = "name"; 
-    private static final String COL_ADDRESS = "address"; 
-    private static final String COL_PHONE = "phno"; 
- 
-    public DatabaseHelper(Context context) { 
-        super(context, DATABASE_NAME, null, 1); 
-    } 
- 
-    @Override 
-    public void onCreate(SQLiteDatabase db) { 
-        String createTable = "CREATE TABLE " + TABLE_NAME + " (" + 
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-                COL_NAME + " TEXT, " + 
-                COL_ADDRESS + " TEXT, " + 
-                COL_PHONE + " TEXT)"; 
-        db.execSQL(createTable); 
-    } 
- 
-    @Override 
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { 
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME); 
-        onCreate(db); 
-    } 
- 
-    public boolean insertData(String name, String address, String phone) { 
-        SQLiteDatabase db = this.getWritableDatabase(); 
-        ContentValues contentValues = new ContentValues(); 
-        contentValues.put(COL_NAME, name); 
-        contentValues.put(COL_ADDRESS, address); 
-        contentValues.put(COL_PHONE, phone); 
- 
-        long result = db.insert(TABLE_NAME, null, contentValues); 
-        return result != -1; 
-    } 
- 
-    public Cursor getAllData() { 
-        SQLiteDatabase db = this.getReadableDatabase(); 
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null); 
-    } 
-} 
- 
- 
- 
-//MainActivity.java 
-package com.example.companyapp; 
- 
-import androidx.appcompat.app.AppCompatActivity; 
-import android.database.Cursor; 
-import android.os.Bundle; 
-import android.view.View; 
-import android.widget.Button; 
-import android.widget.EditText; 
-import android.widget.Toast; 
- 
-public class MainActivity extends AppCompatActivity { 
-    DatabaseHelper myDb; 
-    EditText etName, etAddress, etPhone; 
-    Button btnInsert, btnView; 
- 
-    @Override 
-    protected void onCreate(Bundle savedInstanceState) { 
-        super.onCreate(savedInstanceState); 
-        setContentView(R.layout.activity_main); 
- 
-        myDb = new DatabaseHelper(this); 
- 
-        etName = findViewById(R.id.etName); 
-        etAddress = findViewById(R.id.etAddress); 
-        etPhone = findViewById(R.id.etPhone); 
- 
-        btnInsert = findViewById(R.id.btnInsert); 
-        btnView = findViewById(R.id.btnView); 
- 
-        addData(); 
-       display(); 
-    } 
- 
-    public void addData() { 
-        btnInsert.setOnClickListener(view -> { 
-            boolean isInserted = myDb.insertData( 
-                    etName.getText().toString(), 
-                    etAddress.getText().toString(), 
-                    etPhone.getText().toString() 
-            ); 
- 
-            if (isInserted) { 
-                Toast.makeText(MainActivity.this, "Data Inserted", 
-Toast.LENGTH_LONG).show(); 
-                etName.setText(""); 
-                etAddress.setText(""); 
-                etPhone.setText(""); 
-            } else { 
-                Toast.makeText(MainActivity.this, "Insertion Failed", 
-Toast.LENGTH_LONG).show(); 
-            } 
-        }); 
-    } 
- 
-    public void display() { 
-        btnView.setOnClickListener(view -> { 
-            Cursor res = myDb.getAllData(); 
-            if (res.getCount() == 0) { 
-                Toast.makeText(MainActivity.this, "No Data Found", 
-Toast.LENGTH_LONG).show(); 
-                return; 
-            } 
- 
-            StringBuilder buffer = new StringBuilder(); 
-            while (res.moveToNext()) { 
-                buffer.append("ID: ").append(res.getString(0)).append("\n"); 
-                buffer.append("Name: ").append(res.getString(1)).append("\n"); 
-                buffer.append("Address: ").append(res.getString(2)).append("\n"); 
-                buffer.append("Phone: ").append(res.getString(3)).append("\n\n"); 
-            } 
- 
-            Toast.makeText(MainActivity.this, buffer.toString(), 
-Toast.LENGTH_LONG).show(); 
-        }); 
-    } 
+/*Write a  program  in  GO language to  create an  interface shape that
+includes area and perimeter. Implements these methods in circle
+and rectangle type.*/
+
+package main
+
+import "fmt"
+
+type shape interface {
+	area() float64
+	volume() float64
+}
+
+// -------- Square (Cube) --------
+type square struct {
+	side float64
+}
+
+func (s square) area() float64 {
+	return s.side * s.side
+}
+func (s square) volume() float64 {
+	return s.side * s.side * s.side
+}
+
+// -------- Rectangle (Cuboid) --------
+type rectangle struct {
+	l, b, h float64
+}
+
+func (r rectangle) area() float64 {
+	return r.l * r.b
+}
+func (r rectangle) volume() float64 {
+	return r.l * r.b * r.h
+}
+
+func main() {
+	var side, l, b, h float64
+
+	fmt.Print("Enter side of square: ")
+	fmt.Scan(&side)
+
+	fmt.Print("Enter length breadth height of rectangle: ")
+	fmt.Scan(&l, &b, &h)
+
+	var sh shape
+
+	sh = square{side}
+	fmt.Println("\nSquare Area:", sh.area())
+	fmt.Println("Square Volume:", sh.volume())
+
+	sh = rectangle{l, b, h}
+	fmt.Println("\nRectangle Area:", sh.area())
+	fmt.Println("Rectangle Volume:", sh.volume())
 }

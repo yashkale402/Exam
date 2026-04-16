@@ -1,222 +1,107 @@
-//q1
-//Activity_main.xml 
-<?xml version="1.0" encoding="utf-8"?> 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent" 
-    android:orientation="vertical" 
-    android:padding="16dp" 
-    android:gravity="center"> 
- 
-    <!-- EditText for username input --> 
-    <EditText 
-        android:id="@+id/editTextUsername" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:hint="Username" 
-        android:inputType="textPersonName" /> 
- 
-    <!-- EditText for password input --> 
-    <EditText 
-        android:id="@+id/editTextPassword" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:hint="Password" 
-        android:inputType="textPassword" /> 
- 
-    <!-- Login Button --> 
-    <Button 
-        android:id="@+id/buttonLogin" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content" 
-        android:text="Login" /> 
-</LinearLayout>
+/*Write a program in GO language to accept the book details such
+as BookID, Title, Author, Price. Read and display the details of
+‘n’  number of books*/
 
-//MainActivity.java 
-package com.example.loginapp; 
- 
-import android.content.Intent; 
-import android.os.Bundle; 
-import android.view.View; 
-import android.widget.Button; 
-import android.widget.EditText; 
-import android.widget.Toast; 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class MainActivity extends AppCompatActivity { 
- 
-    private EditText editTextUsername; 
-    private EditText editTextPassword; 
-    private Button buttonLogin; 
- 
- 
-    @Override 
-    protected void onCreate(Bundle savedInstanceState) { 
-        super.onCreate(savedInstanceState); 
-        setContentView(R.layout.activity_main); 
- 
-        editTextUsername = findViewById(R.id.editTextUsername); 
-        editTextPassword = findViewById(R.id.editTextPassword); 
-        buttonLogin = findViewById(R.id.buttonLogin); 
- 
-        buttonLogin.setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View v) { 
-                String username = editTextUsername.getText().toString(); 
-                String password = editTextPassword.getText().toString(); 
- 
-                if (username.equals(“admin”) && password.equals(“1234”)) { 
- Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show(); 
-                    Intent intent = new Intent(MainActivity.this, NextActivity.class); 
-                    startActivity(intent); 
-                } else { 
-Toast.makeText(MainActivity.this, "Invalid Username or Password", 
-Toast.LENGTH_SHORT).show(); 
-                } 
-            } 
-        }); 
-    } 
+package main
+
+import "fmt"
+
+type book struct {
+	bookID int
+	title  string
+	author string
+	price  float64
 }
 
-//SecondActivity.xml 
- 
-<?xml version="1.0" encoding="utf-8"?> 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent" 
-    android:orientation="vertical" 
-    android:padding="16dp" 
-    android:gravity="center"> 
- 
-    <!-- TextView that displays a message --> 
-    <TextView 
-        android:id="@+id/textViewMessage" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content" 
-        android:text="Welcome to the next activity!" 
-        android:textSize="18sp" /> 
-</LinearLayout> 
- 
- 
- 
-//SecondActivity.java 
-package com.example.loginapp; 
- 
-import android.os.Bundle; 
-import android.widget.TextView; 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class NextActivity extends AppCompatActivity { 
- 
-    private TextView textViewMessage; 
- 
-    @Override 
-    protected void onCreate(Bundle savedInstanceState) { 
-        super.onCreate(savedInstanceState); 
-        setContentView(R.layout.activity_next); 
- 
-        textViewMessage = findViewById(R.id.textViewMessage); 
-        textViewMessage.setText("Welcome to second activity!"); 
-    } 
-} 
+func main() {
+	var n int
+	fmt.Print("Enter the number of books to input: ")
+	fmt.Scan(&n)
 
+	books := make([]book, n)
 
-//q2a
+	for i := 0; i < n; i++ {
+		fmt.Printf("Enter details for book %d:\n", i+1)
 
-//activity_main.xml 
-<?xml version="1.0" encoding="utf-8"?> 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:orientation="vertical" 
-    android:padding="20dp" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"> 
- 
-    <Button 
-        android:id="@+id/b1" 
-        android:text="Download File" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content"/> 
- 
-</LinearLayout>
+		fmt.Print("Book ID: ")
+		fmt.Scan(&books[i].bookID)
 
-//MainActivity.java 
-package com.example.downloadapp; 
- 
-import android.content.*; 
-import android.os.Bundle; 
-import android.widget.*; 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class MainActivity extends AppCompatActivity { 
- 
-    Button b1; 
- 
-    BroadcastReceiver br = new BroadcastReceiver() { 
-        @Override 
-        public void onReceive(Context c, Intent i) { 
-            Toast.makeText(c,"Download Complete",Toast.LENGTH_LONG).show(); 
-        } 
-    }; 
- 
-    @Override 
-    protected void onCreate(Bundle b) { 
-        super.onCreate(b); 
-        setContentView(R.layout.activity_main); 
- 
-        b1 = findViewById(R.id.b1); 
- 
-        registerReceiver(br,new IntentFilter("DOWN")); 
- 
-        b1.setOnClickListener(v -> { 
-            Intent i = new Intent(MainActivity.this,MyService.class); 
-            startService(i); 
-        }); 
-    } 
-} 
+		fmt.Print("Title: ")
+		fmt.Scan(&books[i].title)
 
+		fmt.Print("Author: ")
+		fmt.Scan(&books[i].author)
 
-//MyService.java 
-package com.example.downloadapp; 
- 
-import android.app.Service; 
-import android.content.Intent; 
-import android.os.IBinder; 
- 
-import java.io.InputStream; 
-import java.net.URL; 
- 
-public class MyService extends Service { 
- 
-    @Override 
-    public int onStartCommand(Intent i,int f,int s) { 
- 
-        new Thread(() -> { 
- 
-            try { 
- 
-                URL u = new URL("https://example.com/file.pdf"); 
-                InputStream in = u.openStream(); 
- 
-                while(in.read()!=-1) { } 
- 
-                Intent b = new Intent("DOWN"); 
-                sendBroadcast(b); 
- 
-            } catch(Exception e){ } 
- 
-        }).start(); 
- 
-        return START_STICKY; 
-    } 
- 
-    @Override 
-    public IBinder onBind(Intent i) { 
-        return null; 
-} 
+		fmt.Print("Price: ")
+		fmt.Scan(&books[i].price)
+
+		fmt.Println()
+	}
+
+	fmt.Println("Details for each book:")
+	for i := 0; i < n; i++ {
+		fmt.Printf("Book ID: %d\n", books[i].bookID)
+		fmt.Printf("Title: %s\n", books[i].title)
+		fmt.Printf("Author: %s\n", books[i].author)
+		fmt.Printf("Price: %.2f\n", books[i].price)
+		fmt.Println()
+	}
 }
 
-//AndroidManifest.xml 
-<uses-permission android:name="android.permission.INTERNET"/> 
-<application> 
-<service android:name=".MyService"/> 
-</application>
+/*Write a  program  in  GO language to  create an  interface shape that
+includes area and perimeter. Implements these methods in circle
+and rectangle type.*/
+
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type shape interface {
+	area() float64
+	perimeter() float64
+}
+
+type circle struct {
+	r float64
+}
+
+func (c circle) area() float64 {
+	return math.Pi * c.r * c.r
+}
+func (c circle) perimeter() float64 {
+	return 2 * math.Pi * c.r
+}
+
+type rectangle struct {
+	l, b float64
+}
+
+func (r rectangle) area() float64 {
+	return r.l * r.b
+}
+func (r rectangle) perimeter() float64 {
+	return 2 * (r.l + r.b)
+}
+
+func main() {
+	var r, l, b float64
+
+	fmt.Print("Enter radius: ")
+	fmt.Scan(&r)
+
+	fmt.Print("Enter length and breadth: ")
+	fmt.Scan(&l, &b)
+
+	var s shape
+
+	s = circle{r}
+	fmt.Println("\nCircle Area:", s.area())
+	fmt.Println("Circle Perimeter:", s.perimeter())
+
+	s = rectangle{l, b}
+	fmt.Println("\nRectangle Area:", s.area())
+	fmt.Println("Rectangle Perimeter:", s.perimeter())
+}

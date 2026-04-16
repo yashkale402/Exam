@@ -1,162 +1,82 @@
-//q1
-//Activity_main.xml
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+// Write a program in GO language to accept one matrix and display its transpose.
 
-    <TextView
-        android:text="Select Your Favorite Language"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+package main
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+import "fmt"
 
-        <RadioButton
-            android:id="@+id/radioJava"
-            android:text="Java"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+func main() {
+	var r, c int
 
-        <RadioButton
-            android:id="@+id/radioPython"
-            android:text="Python"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+	fmt.Print("Enter number of rows: ")
+	fmt.Scan(&r)
 
-        <RadioButton
-            android:id="@+id/radioCpp"
-            android:text="C++"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+	fmt.Print("Enter number of columns: ")
+	fmt.Scan(&c)
 
-    </RadioGroup>
+	// Create matrix
+	mat := make([][]int, r)
+	for i := 0; i < r; i++ {
+		mat[i] = make([]int, c)
+	}
 
-    <Button
-        android:id="@+id/btnSubmit"
-        android:text="Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+	// Input matrix
+	fmt.Println("Enter matrix elements:")
+	for i := 0; i < r; i++ {
+		for j := 0; j < c; j++ {
+			fmt.Scan(&mat[i][j])
+		}
+	}
 
-</LinearLayout>
+	// Display original matrix
+	fmt.Println("\nOriginal Matrix:")
+	for i := 0; i < r; i++ {
+		for j := 0; j < c; j++ {
+			fmt.Print(mat[i][j], " ")
+		}
+		fmt.Println()
+	}
 
-//MainActivity.java
-package com.example.radiobuttondemo;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-
-    RadioGroup radioGroup;
-    Button btnSubmit;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        radioGroup = findViewById(R.id.radioGroup);
-        btnSubmit = findViewById(R.id.btnSubmit);
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                if(selectedId == -1){
-                    Toast.makeText(MainActivity.this, "Please select an option", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    RadioButton radioButton = findViewById(selectedId);
-                    String selectedText = radioButton.getText().toString();
-
-                    Toast.makeText(MainActivity.this, "Selected: " + selectedText, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+	// Display transpose
+	fmt.Println("\nTranspose Matrix:")
+	for j := 0; j < c; j++ {
+		for i := 0; i < r; i++ {
+			fmt.Print(mat[i][j], " ")
+		}
+		fmt.Println()
+	}
 }
 
+/*Write a program in GO language to create structure student. Write a
+method show() whose receiver is a pointer of struct student.*/
 
+package main
 
-//q2a
+import "fmt"
 
+type Student struct {
+	rollNo int
+	name   string
+	marks  float64
+}
 
-//activity_main.xml
+func (s *Student) show() {
+	fmt.Println("----- Student Details -----")
+	fmt.Println("Roll No :", s.rollNo)
+	fmt.Println("Name    :", s.name)
+	fmt.Println("Marks   :", s.marks)
+}
 
-<?xml version="1.0" encoding="utf-8"?> 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:orientation="vertical" 
-    android:padding="20dp" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"> 
- 
-    <EditText 
-        android:id="@+id/e1" 
-        android:hint="Enter Phone Number" 
-        android:inputType="phone" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content"/> 
- 
-    <Button 
-        android:id="@+id/b1" 
-        android:text="Call" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content"/> 
- 
-</LinearLayout> 
+func main() {
+	var s Student
 
-//MainActivity.java 
-package com.example.callapp; 
- 
-import android.content.Intent; 
-import android.net.Uri; 
-import android.os.Bundle; 
-import android.view.View; 
-import android.widget.*; 
- 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class MainActivity extends AppCompatActivity { 
- 
-    EditText e1; 
-    Button b1; 
- 
-    @Override 
-    protected void onCreate(Bundle b) { 
-        super.onCreate(b); 
-        setContentView(R.layout.activity_main); 
- 
-        e1 = findViewById(R.id.e1); 
-        b1 = findViewById(R.id.b1); 
- 
-        b1.setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View v) { 
- 
-                String no = e1.getText().toString(); 
- 
-                Intent i = new Intent(Intent.ACTION_CALL); 
-                i.setData(Uri.parse("tel:"+no)); 
- 
-                startActivity(i); 
-            } 
-        }); 
-    } 
-} 
-//AndroidManifest.xml 
-<uses-permission android:name="android.permission.CALL_PHONE"/>
+	fmt.Print("Enter Roll No: ")
+	fmt.Scan(&s.rollNo)
+
+	fmt.Print("Enter Name: ")
+	fmt.Scan(&s.name)
+
+	fmt.Print("Enter Marks: ")
+	fmt.Scan(&s.marks)
+
+	s.show()
+}

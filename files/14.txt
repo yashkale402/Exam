@@ -1,102 +1,90 @@
-//q1
-package com.example.activitylifecycle; 
- 
-import android.os.Bundle; 
-import android.util.Log; 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class MainActivity extends AppCompatActivity { 
- 
-    private static final String TAG = "ActivityLifecycle"; 
- 
-    @Override 
-    protected void onCreate(Bundle savedInstanceState) { 
-        super.onCreate(savedInstanceState); 
-        setContentView(R.layout.activity_main); 
-        Log.d(TAG, "onCreate called"); 
-    } 
- 
-    @Override 
-    protected void onStart() { 
-        super.onStart(); 
-        Log.d(TAG, "onStart called"); 
-    } 
- 
-    @Override 
-    protected void onResume() { 
-        super.onResume(); 
-        Log.d(TAG, "onResume called"); 
-    } 
- 
-    @Override 
-    protected void onPause() { 
-        super.onPause(); 
-        Log.d(TAG, "onPause called"); 
-    } 
- 
-    @Override 
-    protected void onStop() { 
-        super.onStop(); 
-        Log.d(TAG, "onStop called"); 
-    } 
- 
-    @Override 
-    protected void onRestart() { 
-        super.onRestart(); 
-        Log.d(TAG, "onRestart called"); 
-    } 
- 
-    @Override 
-    protected void onDestroy() { 
-        super.onDestroy(); 
-        Log.d(TAG, "onDestroy called"); 
-    } 
+//Write a program in GO language to demonstrate working of slices (like append, remove, copy etc.)
+
+package main
+
+import "fmt"
+
+func main() {
+	// Create slice using make()
+	s := make([]int, 3)
+	s[0], s[1], s[2] = 1, 2, 3
+	fmt.Println("Slice s:", s)
+
+	// Append one value
+	s = append(s, 4)
+	fmt.Println("After append 4:", s)
+
+	// Append another slice
+	t := []int{5, 6}
+	s = append(s, t...)
+	fmt.Println("After append slice {5,6}:", s)
+
+	// Copy part of slice into new slice
+	c := make([]int, 3)
+	copy(c, s[2:5])
+	fmt.Println("Copied slice c (from s[2:5]):", c)
+
+	// Remove first element
+	s = s[1:]
+	fmt.Println("After removing first element:", s)
+
+	// Remove last element
+	s = s[:len(s)-1]
+	fmt.Println("After removing last element:", s)
+
+	// Update element
+	s[1] = 99
+	fmt.Println("After updating index 1 to 99:", s)
+
+	// Print length and capacity
+	fmt.Println("Length:", len(s))
+	fmt.Println("Capacity:", cap(s))
 }
 
-//q2a
+/*Write  a  program  in  GO  language  using  go  routine  and  channel  that
+will print the sum of the squares  and cubes of the  individual digits
+of a number. Example if number is 123 then
+squares = (1 * 1) + (2 * 2) + (3 * 3)
+cubes = (1 * 1 * 1) + (2 * 2 * 2) + (3 * 3 * 3).*/
 
+package main
 
-//activitymain.xml
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent" 
-    android:orientation="vertical" 
-    android:padding="16dp"> 
- 
-    <TextView 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content" 
-        android:text="Coffee?" 
-        android:textSize="18sp" 
-        android:textStyle="bold" 
-        android:paddingBottom="10dp"/> 
- 
-    <Spinner 
-        android:id="@+id/spinner" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:textSize="18sp" 
-        android:background="@android:drawable/btn_dropdown" 
-        android:popupBackground="#FFFFFF"/> 
- 
-</LinearLayout> 
- 
-//String.xml 
- 
-<resources> 
-    <string name="app_name">Spinner Style</string> 
- 
-    <!-- Define coffee options for Spinner --> 
-    <string-array name="coffee_options"> 
-        <item>Filter</item> 
-        <item>Americano</item> 
-        <item>Latte</item> 
-        <item>Espresso</item> 
-        <item>Cappuccino</item> 
-        <item>Mocha</item> 
-        <item>Skinny Latte</item> 
-        <item>Espresso Corretto</item> 
-    </string-array> 
- 
-</resources>
+import "fmt"
 
+func sumSquares(n int, ch chan int) {
+	sum := 0
+	for n > 0 {
+		d := n % 10
+		sum += d * d
+		n = n / 10
+	}
+	ch <- sum
+}
+
+func sumCubes(n int, ch chan int) {
+	sum := 0
+	for n > 0 {
+		d := n % 10
+		sum += d * d * d
+		n = n / 10
+	}
+	ch <- sum
+}
+
+func main() {
+	var num int
+	fmt.Print("Enter number: ")
+	fmt.Scan(&num)
+
+	sqCh := make(chan int)
+	cbCh := make(chan int)
+
+	go sumSquares(num, sqCh)
+	go sumCubes(num, cbCh)
+
+	squares := <-sqCh
+	cubes := <-cbCh
+
+	fmt.Println("Sum of squares of digits:", squares)
+	fmt.Println("Sum of cubes of digits  :", cubes)
+}

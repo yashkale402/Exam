@@ -1,213 +1,79 @@
-//q1
-//activity_main.xml 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:orientation="vertical" 
-    android:padding="16dp" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"> 
- 
-    <EditText 
-        android:id="@+id/et1" 
-        android:hint="Enter Number 1" 
-        android:inputType="number" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content"/> 
- 
-    <EditText 
-        android:id="@+id/et2" 
-        android:hint="Enter Number 2" 
-        android:inputType="number" 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content"/> 
- 
-    <Button 
-        android:text="Calculate" 
-        android:onClick="cal" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content"/> 
-</LinearLayout>
+// Write a program in GO language to create a Text file and write some text into it.
 
-//MainActivity.java 
-package com.example.poweravg; 
- 
-import android.content.Intent; 
-import android.os.Bundle; 
-import android.view.View; 
-import android.widget.EditText; 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class MainActivity extends AppCompatActivity { 
- 
-    EditText n1, n2; 
- 
-    @Override 
-    protected void onCreate(Bundle b) { 
-        super.onCreate(b); 
-        setContentView(R.layout.activity_main); 
- 
-        n1 = findViewById(R.id.et1); 
-        n2 = findViewById(R.id.et2); 
-    } 
- 
-    public void cal(View v) { 
-        int a = Integer.parseInt(n1.getText().toString()); 
-        int b1 = Integer.parseInt(n2.getText().toString()); 
- 
-        Intent i = new Intent(this, SecondActivity.class); 
-        i.putExtra("a", a); 
-        i.putExtra("b", b1); 
-        startActivity(i); 
-    } 
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+
+	// Create a text file
+	file, err := os.Create("myfile.txt")
+	if err != nil {
+		fmt.Println("Error creating file:", err)
+		return
+	}
+	defer file.Close()
+
+	// Text to write into file
+	text := "Hello! This is a sample text written into a file using Go language.\n"
+
+	// Write text into file
+	_, err = file.WriteString(text)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+		return
+	}
+
+	fmt.Println("Text written successfully into myfile.txt")
 }
 
+// Write a program in GO language to accept n records of employee information
+// (eno, ename, salary) and display records of employees having minimum salary.
 
-//activity_second.xml 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:padding="16dp" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"> 
- 
-    <TextView 
-        android:id="@+id/tvRes" 
-        android:textSize="18sp" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content"/> 
-</LinearLayout> 
+package main
 
-//SecondActivity.java 
-package com.example.poweravg; 
- 
-import android.os.Bundle; 
-import android.widget.TextView; 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class SecondActivity extends AppCompatActivity { 
- 
-    TextView tv; 
- 
-    @Override 
-    protected void onCreate(Bundle b) { 
-        super.onCreate(b); 
-        setContentView(R.layout.activity_second); 
- 
-        tv = findViewById(R.id.tvRes); 
- 
-        int a = getIntent().getIntExtra("a", 0); 
-        int b1 = getIntent().getIntExtra("b", 0); 
- 
-        double p = Math.pow(a, b1); 
-        double avg = (a + b1) / 2.0; 
- 
-        tv.setText("Power = " + p + "\nAverage = " + avg); 
-    } 
+import "fmt"
+
+type Employee struct {
+	eno    int
+	ename  string
+	salary float64
 }
 
+func main() {
+	var n int
+	fmt.Print("Enter number of employees: ")
+	fmt.Scan(&n)
 
-//q2a
+	E := make([]Employee, n)
 
+	// Accept employee records
+	for i := 0; i < n; i++ {
+		fmt.Println("\nEnter details of Employee", i+1)
+		fmt.Print("Employee No: ")
+		fmt.Scan(&E[i].eno)
+		fmt.Print("Employee Name: ")
+		fmt.Scan(&E[i].ename)
+		fmt.Print("Employee Salary: ")
+		fmt.Scan(&E[i].salary)
+	}
 
-//Activitymain.xml
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+	// Find minimum salary
+	minSalary := E[0].salary
+	for i := 1; i < n; i++ {
+		if E[i].salary < minSalary {
+			minSalary = E[i].salary
+		}
+	}
 
-    <Button
-        android:id="@+id/btnFriends"
-        android:text="Show Friends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
-
-//customdialog.xml
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:text="Select Friend"
-        android:textSize="20sp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btnRahul"
-        android:text="Rahul"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btnAmit"
-        android:text="Amit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btnPriya"
-        android:text="Priya"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
-
-//MainActivity.java
-package com.example.customdialog;
-
-import android.app.AlertDialog;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
-
-    Button btnFriends;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        btnFriends = findViewById(R.id.btnFriends);
-
-        btnFriends.setOnClickListener(v -> {
-
-            LayoutInflater inflater = getLayoutInflater();
-            View view = inflater.inflate(R.layout.custom_dialog, null);
-
-            AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-                    .setView(view)
-                    .create();
-
-            Button rahul = view.findViewById(R.id.btnRahul);
-            Button amit = view.findViewById(R.id.btnAmit);
-            Button priya = view.findViewById(R.id.btnPriya);
-
-            rahul.setOnClickListener(v1 -> {
-                Toast.makeText(MainActivity.this, "Hello Rahul!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
-
-            amit.setOnClickListener(v1 -> {
-                Toast.makeText(MainActivity.this, "Hello Amit!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
-
-            priya.setOnClickListener(v1 -> {
-                Toast.makeText(MainActivity.this, "Hello Priya!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
-
-            dialog.show();
-        });
-    }
+	// Display employees having minimum salary
+	fmt.Println("\nEmployees having Minimum Salary:", minSalary)
+	for i := 0; i < n; i++ {
+		if E[i].salary == minSalary {
+			fmt.Println("Eno:", E[i].eno, "Ename:", E[i].ename, "Salary:", E[i].salary)
+		}
+	}
 }

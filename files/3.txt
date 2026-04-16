@@ -1,127 +1,82 @@
-//q1
-//activity_main.xml 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:orientation="vertical" 
-    android:gravity="center" 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"> 
- 
-    <TextView 
-        android:id="@+id/tvClg" 
-        android:text="ABC College of Engineering" 
-        android:textSize="24sp" 
-        android:textStyle="bold|italic" 
-        android:textColor="@android:color/black" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content"/> 
- 
-    <Button 
-        android:id="@+id/btn" 
-        android:text="Change Color" 
-        android:onClick="chg" 
-        android:layout_width="wrap_content" 
-        android:layout_height="wrap_content" 
-        android:layout_marginTop="20dp"/> 
-</LinearLayout> 
+// Write  a  program  in  the  GO  language  using  function  to  check whether accepts number is palindrome or not.
+package main
 
-//MainActivity.java
-package com.example.collegeapp; 
- 
-import android.graphics.Color; 
-import android.os.Bundle; 
-import android.view.View; 
-import android.widget.Button; 
-import android.widget.TextView; 
-import androidx.appcompat.app.AppCompatActivity; 
- 
-public class MainActivity extends AppCompatActivity { 
- 
-TextView tv; 
- 
-    @Override 
-    protected void onCreate(Bundle b) { 
-        super.onCreate(b); 
-        setContentView(R.layout.activity_main); 
- 
-        tv = findViewById(R.id.tvClg); 
-    } 
- 
-    public void chg(View v) { 
-tv.setTextColor(Color.RED); 
-        tv.setTextSize(30); 
-        tv.setTypeface(null, Typeface.BOLD_ITALIC);    } 
+import "fmt"
+
+func isPalindrome(n int) bool {
+	original := n
+	rev := 0
+	for n > 0 {
+		rev = rev*10 + n%10
+		n /= 10
+	}
+	return original == rev
 }
 
+func main() {
+	var num int
 
-//q2a
-//Activitymain.xml
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+	fmt.Print("Enter a number: ")
+	fmt.Scanln(&num)
 
-    <TextView
-        android:text="Factorial Calculator"
-        android:textSize="22sp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+	if isPalindrome(num) {
+		fmt.Println("The number is a palindrome.")
+	} else {
+		fmt.Println("The number is not a palindrome.")
+	}
+}
 
-    <EditText
-        android:id="@+id/number"
-        android:hint="Enter Number"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+/*Write a Program in GO language to accept n records of employee
+information (eno,ename,salary) and display record of employees
+having maximum salary.*/
 
-    <Button
-        android:id="@+id/btnCalculate"
-        android:text="Find Factorial"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+package main
 
-</LinearLayout>
+import "fmt"
 
-//MainActivity.java
-package com.example.factorialapp;
+type Employee struct {
+	eno    int
+	ename  string
+	salary float64
+}
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+func main() {
+	var n int
+	fmt.Print("Enter number of employees: ")
+	fmt.Scan(&n)
 
-public class MainActivity extends AppCompatActivity {
+	E := make([]Employee, n)
 
-    EditText number;
-    Button btnCalculate;
+	// Accept employee records
+	for i := 0; i < n; i++ {
+		fmt.Println("\nEnter details of employee", i+1)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+		fmt.Print("Employee No: ")
+		fmt.Scan(&E[i].eno)
 
-        number = findViewById(R.id.number);
-        btnCalculate = findViewById(R.id.btnCalculate);
+		fmt.Print("Employee Name: ")
+		fmt.Scan(&E[i].ename)
 
-        btnCalculate.setOnClickListener(v -> {
+		fmt.Print("Salary: ")
+		fmt.Scan(&E[i].salary)
+	}
 
-            int num = Integer.parseInt(number.getText().toString());
-            long factorial = 1;
+	// Find maximum salary
+	maxSalary := E[0].salary
+	for i := 1; i < n; i++ {
+		if E[i].salary > maxSalary {
+			maxSalary = E[i].salary
+		}
+	}
 
-            for(int i = 1; i <= num; i++){
-                factorial = factorial * i;
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Factorial Result");
-            builder.setMessage("Factorial of " + num + " is " + factorial);
-            builder.setPositiveButton("OK", null);
-            builder.show();
-        });
-    }
+	// Display employee(s) having maximum salary
+	fmt.Println("\n--- Employee(s) with Maximum Salary ---")
+	for i := 0; i < n; i++ {
+		if E[i].salary == maxSalary {
+			fmt.Println("Employee No:", E[i].eno)
+			fmt.Println("Employee Name:", E[i].ename)
+			fmt.Println("Salary:", E[i].salary)
+			fmt.Println("-------------------------")
+		}
+	}
 }
